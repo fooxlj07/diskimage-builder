@@ -1,4 +1,19 @@
 {
+<<<<<<< HEAD
+=======
+  "distro": {
+    "fedora": {
+      "libselinux-python": "python3-libselinux",
+      "policycoreutils": "python3-policycoreutils",
+      "policycoreutils-python": "policycoreutils-python-utils"
+    },
+    "rocky": {
+      "libselinux-python": "python3-libselinux",
+      "policycoreutils": "python3-policycoreutils",
+      "policycoreutils-python": "policycoreutils-python-utils"
+    }
+  },
+>>>>>>> 2e27d6038dec36b7d08299ecf593379332baf9e3
   "release": {
     "rhel": {
       "7": {
