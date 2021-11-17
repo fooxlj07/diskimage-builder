@@ -20,6 +20,13 @@
         "policycoreutils": "python3-policycoreutils",
         "policycoreutils-python": "policycoreutils-python-utils"
       }
+    },
+    "rocky": {
+      "8": {
+        "libselinux-python": "python3-libselinux",
+        "policycoreutils": "python3-policycoreutils",
+        "policycoreutils-python": "policycoreutils-python-utils"
+      }
     }
   }
 }
