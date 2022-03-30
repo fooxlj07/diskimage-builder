@@ -11,6 +11,7 @@
     irrelevant-files:
       - ^.*\.rst$
       - ^doc/.*$
+      - ^releasenotes/.*$
 
 - job:
     name: dib-functests
@@ -21,33 +22,40 @@
     vars:
       dib_functests:
         - containerfile/focal-build-succeeds
-        # NOTE(ianw) 2021-10-15 : this currently segfaults
-        # yum...
-        #- openeuler-minimal/20.03-LTS-SP2-build-succeeds
+        - openeuler-minimal/20.03-LTS-SP2-build-succeeds
         # Image based tests
-        - centos/8-build-succeeds
         - centos/8-stream-build-succeeds
-        # - centos/9-stream-build-succeeds
+        - centos/9-stream-build-succeeds
         - fedora/build-succeeds
         - opensuse/build-succeeds
-        - opensuse/opensuse15-build-succeeds
         - ubuntu/bionic-build-succeeds
         - ubuntu/focal-build-succeeds
 
+# NOTE(ianw) : these jobs are split to keep the build times a bit more
+# reasonable.
 - job:
-    name: dib-functests-arm64
+    name: dib-functests-arm64-deb
     description: |
-      ARM64 build tests
+      ARM64 build tests (Debian-like distros)
     nodeset: debian-bullseye-arm64
     parent: dib-functests-base
     vars:
       dib_functests:
         - ubuntu-minimal/bionic-arm64-build-succeeds
         - ubuntu-minimal/focal-arm64-build-succeeds
-        - centos-minimal/8-aarch64-build-succeeds
-        # NOTE(ianw) 2021-10-15 : this currently segfaults
-        # yum...
-        #- openeuler-minimal/20.03-LTS-SP2-build-succeeds
+        - debian-minimal/bullseye-arm64-build-succeeds
+
+- job:
+    name: dib-functests-arm64-rpm
+    description: |
+      ARM64 build tests (RPM-like distros)
+    nodeset: debian-bullseye-arm64
+    parent: dib-functests-base
+    vars:
+      dib_functests:
+        - centos-minimal/8-stream-aarch64-build-succeeds
+        - centos-minimal/9-stream-aarch64-build-succeeds
+        - openeuler-minimal/20.03-LTS-SP2-build-succeeds
 
 #
 # Build and boot functional tests
@@ -63,6 +71,10 @@
     post-run: playbooks/dib-nodepool/collect-openstack-logs.yaml
     vars:
       nodepool_debug: true
+    irrelevant-files:
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^releasenotes/.*$
 
 - job:
     name: dib-nodepool-functional-openstack-centos-7-src
@@ -73,17 +85,6 @@
       nodepool_diskimage:
         base_element: centos-minimal
         release: '7'
-        mirror: "http://{{ zuul_site_mirror_fqdn }}/centos"
-
-- job:
-    name: dib-nodepool-functional-openstack-centos-8-src
-    description: |
-      Test building and booting a Centos 8 image with Nodepool and OpenStack
-    parent: dib-nodepool-functional-src-base
-    vars:
-      nodepool_diskimage:
-        base_element: centos-minimal
-        release: '8'
         mirror: "http://{{ zuul_site_mirror_fqdn }}/centos"
 
 - job:
@@ -124,6 +125,19 @@
       nodepool_diskimage:
         base_element: fedora-container
         release: '35'
+
+- job:
+    name: dib-nodepool-functional-openstack-rockylinux-8-containerfile-src
+    description: |
+      Test building and booting a Rocky Linux image from a
+      containerfile with Nodepool and OpenStack (using released
+      libraries)
+    parent: dib-nodepool-functional-src-base
+    vars:
+      nodepool_debug: true
+      nodepool_diskimage:
+        base_element: rocky-container
+        release: '8'
 
 - job:
     name: dib-nodepool-functional-openstack-ubuntu-xenial-src

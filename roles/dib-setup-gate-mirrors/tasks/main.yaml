@@ -22,22 +22,21 @@
     - updates.repo
     - extras.repo
 
-- name: Create centos-minimal 8 directory
+- name: Create centos-minimal 8-stream directory
   file:
-    path: "{{ dib_gate_mirror_repos }}/centos-minimal/8/yum.repos.d"
+    path: "{{ dib_gate_mirror_repos }}/centos-minimal/8-stream/yum.repos.d"
     state: directory
     mode: 0775
     recurse: yes
 
-- name: Install centos-minimal 8 repo files
+- name: Install centos-minimal 8-stream repo files
   template:
-    dest: "{{ dib_gate_mirror_repos }}/centos-minimal/8/yum.repos.d/dib-mirror-{{ item }}"
+    dest: "{{ dib_gate_mirror_repos }}/centos-minimal/8-stream/yum.repos.d/dib-mirror-{{ item }}"
     mode: 0644
-    src: "centos-minimal/8/{{ item }}.j2"
+    src: "centos-minimal/8-stream/{{ item }}.j2"
   with_items:
     - base.repo
     - appstream.repo
-    - extras.repo
 
 - name: Create centos-minimal 9-stream directory
   file:

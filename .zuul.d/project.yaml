@@ -15,13 +15,11 @@
         - opendev-buildset-registry
         - nodepool-build-image-siblings
         - dib-nodepool-functional-openstack-centos-7-src
-        - dib-nodepool-functional-openstack-centos-8-src
         - dib-nodepool-functional-openstack-centos-8-stream-src
-        # NOTE(ianw) 2021-11-10 : temporary due to mirror issues
-        #  https://pagure.io/centos-infra/issue/514
-        - dib-nodepool-functional-openstack-centos-9-stream-src:
-            voting: false
+        - dib-nodepool-functional-openstack-centos-9-stream-src
         - dib-nodepool-functional-openstack-fedora-35-containerfile-src
+        - dib-nodepool-functional-openstack-rockylinux-8-containerfile-src:
+            voting: false
         - dib-nodepool-functional-openstack-ubuntu-xenial-src
         - dib-nodepool-functional-openstack-ubuntu-bionic-src
         - dib-nodepool-functional-openstack-ubuntu-focal-src
@@ -41,15 +39,16 @@
             voting: false
     check-arm64:
       jobs:
-        - dib-functests-arm64
+        - dib-functests-arm64-deb
+        - dib-functests-arm64-rpm
     gate:
       jobs:
         - openstack-tox-pylint
         - opendev-buildset-registry
         - nodepool-build-image-siblings
         - dib-nodepool-functional-openstack-centos-7-src
-        - dib-nodepool-functional-openstack-centos-8-src
         - dib-nodepool-functional-openstack-centos-8-stream-src
+        - dib-nodepool-functional-openstack-centos-9-stream-src
         - dib-nodepool-functional-openstack-fedora-35-containerfile-src
         - dib-nodepool-functional-openstack-ubuntu-xenial-src
         - dib-nodepool-functional-openstack-ubuntu-bionic-src
