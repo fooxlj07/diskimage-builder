@@ -30,6 +30,9 @@ if [ -n "$DIB_LOCAL_IMAGE" ]; then
     BASE_IMAGE_TAR=$BASE_IMAGE_FILE.tgz
 else
     DIB_FLAVOR=${DIB_FLAVOR:-GenericCloud}
+    if [ "$DIB_RELEASE" == "9" ]; then
+        BASE_IMAGE_FILE=${BASE_IMAGE_FILE:-$(curl -L -s https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/${ARCH} | grep -o "Rocky-.[^>]*${DIB_FLAVOR}-.[^>]*.${ARCH}.qcow2" | sort -r | head -1)}
+    fi
     BASE_IMAGE_FILE=${BASE_IMAGE_FILE:-$(curl -s https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/ | grep -o "Rocky-.[^>]*${DIB_FLAVOR}-.[^>]*.${ARCH}.qcow2" | sort -r | head -1)}
     BASE_IMAGE_TAR=$BASE_IMAGE_FILE.tgz
     IMAGE_LOCATION=$DIB_CLOUD_IMAGES/$BASE_IMAGE_FILE
