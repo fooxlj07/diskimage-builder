@@ -2,6 +2,7 @@
 # see https://docs.openstack.org/infra/bindep/ for additional information.
 
 # common
+binutils
 bzip2
 util-linux
 dosfstools
@@ -13,19 +14,20 @@ git
 
 squashfs-tools [!platform:suse]
 squashfs [platform:suse]
-zypper [!platform:debian-stretch !platform:redhat !platform:ubuntu-trusty !platform:ubuntu-bionic !platform:ubuntu-focal]
+zypper [!platform:debian-stretch !platform:redhat !platform:ubuntu-trusty !platform:ubuntu-bionic !platform:ubuntu-focal !platform:ubuntu-jammy]
 gnupg2 [!platform:redhat !platform:ubuntu-trusty !platform:suse]
 
 # ubuntu
 apt-transport-https [platform:dpkg]
 inetutils-ping [platform:dpkg]
-python-lzma [platform:dpkg !platform:ubuntu-focal !platform:debian-bullseye]
+python-lzma [platform:dpkg !platform:ubuntu-focal !platform:ubuntu-jammy !platform:debian-bullseye]
 qemu-utils [platform:dpkg]
 rpm [platform:dpkg]
 uuid-runtime [platform:dpkg]
-yum-utils [platform:dpkg !platform:ubuntu-focal !platform:debian-bullseye]
+yum-utils [platform:dpkg !platform:ubuntu-focal !platform:ubuntu-jammy !platform:debian-bullseye]
 dnf [platform:debian-bullseye]
 debootstrap [platform:dpkg]
+zstd [platform:dpkg]
 procps [platform:dpkg]
 
 # centos/fedora
