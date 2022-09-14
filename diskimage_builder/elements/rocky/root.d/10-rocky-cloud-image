@@ -11,7 +11,7 @@ set -o pipefail
 
 if [[ "amd64 x86_64" =~ "$ARCH" ]]; then
     ARCH="x86_64"
-    DIB_CLOUD_IMAGES=${DIB_CLOUD_IMAGES:-https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images}
+    DIB_CLOUD_IMAGES=${DIB_CLOUD_IMAGES:-https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/${ARCH}}
 else
     echo 'rocky root element only support the x86_64 for $ARCH'
     exit 1
@@ -30,10 +30,7 @@ if [ -n "$DIB_LOCAL_IMAGE" ]; then
     BASE_IMAGE_TAR=$BASE_IMAGE_FILE.tgz
 else
     DIB_FLAVOR=${DIB_FLAVOR:-GenericCloud}
-    if [ "$DIB_RELEASE" == "9" ]; then
-        BASE_IMAGE_FILE=${BASE_IMAGE_FILE:-$(curl -L -s https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/${ARCH} | grep -o "Rocky-.[^>]*${DIB_FLAVOR}-.[^>]*.${ARCH}.qcow2" | sort -r | head -1)}
-    fi
-    BASE_IMAGE_FILE=${BASE_IMAGE_FILE:-$(curl -s https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/ | grep -o "Rocky-.[^>]*${DIB_FLAVOR}-.[^>]*.${ARCH}.qcow2" | sort -r | head -1)}
+    BASE_IMAGE_FILE=${BASE_IMAGE_FILE:-$(curl -sL https://dl.rockylinux.org/pub/rocky/${DIB_RELEASE}/images/${ARCH} | grep -o "Rocky-.[^>]*${DIB_FLAVOR}[-.].[^>]*.${ARCH}.qcow2" | sort -r | head -1)}
     BASE_IMAGE_TAR=$BASE_IMAGE_FILE.tgz
     IMAGE_LOCATION=$DIB_CLOUD_IMAGES/$BASE_IMAGE_FILE
     CACHED_IMAGE=$DIB_IMAGE_CACHE/$BASE_IMAGE_FILE
